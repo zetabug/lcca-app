@@ -13,8 +13,9 @@ If you are developing a production application, we recommend using TypeScript wi
 
 
 
-> How to run the web app?
->npm run dev
+1. How to run the web app?
+
+2. npm run dev
 
 
 vite.config.js 
