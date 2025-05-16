@@ -1,34 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { useState } from 'react';
+import TabNavigation from './components/TabNavigation';
+import DropDown from './components/DropDown';
+import Tutorials from './components/Tutorials/Tutorials';
+import ProjectDetails from './components/ProjectDetails/ProjectDetails';
+import Results from './components/Results/Results';
+import Compare from './components/Compare/Compare';
+import { FormDataProvider } from './components/FormDataContext';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [activeTab, setActiveTab] = useState("Project Details");
+  const [showTutorials, setShowTutorials] = useState(true);
+
+  function handleTabChange(tab) {
+    setActiveTab(tab);
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <FormDataProvider>
+      <div className="min-h-screen">
+
+        <header
+          className="text-md font-semibold flex items-center justify-center h-9 text-white"
+          style={{ backgroundColor: '#45913E' }}
+        >
+          LCCA Web App
+        </header>
+
+        <DropDown />
+
+        <TabNavigation activeTab={activeTab} onTabChange={handleTabChange} showTutorials={showTutorials} setShowTutorials={setShowTutorials} />
+
+
+        <div className={` ${showTutorials ? "grid grid-cols-[auto_1fr] " : " "}"
+  } gap-24  px-8 mt-4`}>
+          {showTutorials && (
+            <Tutorials onClose={() => setShowTutorials(false)} showTutorials={showTutorials} />
+          )}
+
+          {activeTab === "Project Details" && <ProjectDetails />}
+          {activeTab === "Results" && <Results />}
+          {activeTab === "Compare" && <Compare />}
+
+        </div>
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </FormDataProvider>
+
   )
 }
 
